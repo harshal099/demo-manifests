@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-c
+  annotations:
+    pipeline.autoupdate: "true"
+    pipeline.image-repo: demo/app-c
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: app-c
+        image: demo/app-c:1.0.0
