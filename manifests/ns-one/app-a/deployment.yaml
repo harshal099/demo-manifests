@@ -10,5 +10,5 @@ spec:
   template:
     spec:
       containers:
-      - name: app-a
-        image: demo/app-a:1.0.0
+        - name: app-a
+          image: demo/app-a:poc009
