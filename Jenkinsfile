@@ -25,14 +25,16 @@ pipeline {
       }
     }
 
+     
     stage('Update manifest') {
       steps {
         bat '''
         echo Running update script...
-        bash scripts/update-manifests.sh %NAMESPACE% %APP_NAME% %IMAGE_TAG%
-        '''
+    "C:\\Program Files\\Git\\bin\\bash.exe" scripts/update-manifests.sh %NAMESPACE% %APP_NAME% %IMAGE_TAG%
+    '''
       }
     }
+
 
     stage('Show changes') {
       steps {
