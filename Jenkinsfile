@@ -27,28 +27,27 @@ pipeline {
 
     stage('Update manifest') {
       steps {
-        sh '''
-        echo "Running update script..."
-        chmod +x scripts/update-manifests.sh
-        scripts/update-manifests.sh ${NAMESPACE} ${APP_NAME} ${IMAGE_TAG}
+        bat '''
+        echo Running update script...
+        bash scripts/update-manifests.sh %NAMESPACE% %APP_NAME% %IMAGE_TAG%
         '''
       }
     }
 
     stage('Show changes') {
       steps {
-        sh '''
-        echo "========= GIT DIFF ========="
-        git diff || true
+        bat '''
+        echo ===== GIT DIFF =====
+        git diff
         '''
       }
     }
 
     stage('Commit changes') {
       steps {
-        sh '''
+        bat '''
         git status
-        git commit -am "POC: update ${APP_NAME} to ${IMAGE_TAG} in ${NAMESPACE}" || echo "Nothing to commit"
+        git commit -am "POC: update %APP_NAME% to %IMAGE_TAG% in %NAMESPACE%" || echo Nothing to commit
         git push origin HEAD
         '''
       }
