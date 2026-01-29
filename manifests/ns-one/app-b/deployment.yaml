@@ -10,5 +10,5 @@ spec:
   template:
     spec:
       containers:
-      - name: app-b
-        image: demo/app-b:1.0.0
+        - name: app-b
+          image: demo/app-b:ex8
