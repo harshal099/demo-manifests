@@ -48,10 +48,22 @@ pipeline {
     stage('Commit changes') {
       steps {
         bat '''
-        git status
-        git commit -am "POC: update %APP_NAME% to %IMAGE_TAG% in %NAMESPACE%" || echo Nothing to commit
-        git push origin HEAD
-        '''
+        echo Configuring git identity...
+        git config user.name "jenkins-bot"
+        git config user.email "jenkins-bot@local"
+
+    	echo Ensuring we are on main branch...
+    	git checkout -B main
+
+    	echo Adding changes...
+    	git add manifests
+
+    	echo Committing changes...
+    	git commit -m "POC: update %APP_NAME% to %IMAGE_TAG% in %NAMESPACE%" || echo Nothing to commit
+
+    	echo Pushing changes...
+    	git push origin main
+    	'''
       }
     }
   }
