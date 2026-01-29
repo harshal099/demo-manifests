@@ -44,28 +44,35 @@ pipeline {
         '''
       }
     }
-
+    
     stage('Commit changes') {
       steps {
-        bat '''
-        echo Configuring git identity...
-        git config user.name "jenkins-bot"
-        git config user.email "jenkins-bot@local"
+        withCredentials([usernamePassword(
+          credentialsId: 'github-https',
+          usernameVariable: 'GIT_USER',
+          passwordVariable: 'GIT_TOKEN'
+        )]) {
+          bat '''
+          echo Configuring git identity...
+          git config user.name "jenkins-bot"
+          git config user.email "jenkins-bot@local"
 
-    	echo Ensuring we are on main branch...
-    	git checkout -B main
+          echo Checking out main branch...
+          git checkout -B main
 
-    	echo Adding changes...
-    	git add manifests
+          echo Adding changes...
+          git add manifests
 
-    	echo Committing changes...
-    	git commit -m "POC: update %APP_NAME% to %IMAGE_TAG% in %NAMESPACE%" || echo Nothing to commit
+          echo Committing changes...
+          git commit -m "POC: update %APP_NAME% to %IMAGE_TAG% in %NAMESPACE%" || echo Nothing to commit
 
-    	echo Pushing changes...
-    	git push origin main
-    	'''
+          echo Pushing changes (non-interactive)...
+          git push https://%GIT_USER%:%GIT_TOKEN%@github.com/harshal099/demo-manifests.git main
+          '''
+        }
       }
     }
+
   }
 }
 
