@@ -10,5 +10,5 @@ spec:
   template:
     spec:
       containers:
-      - name: app-c
-        image: demo/app-c:1.0.0
+        - name: app-c
+          image: demo/app-c:ex9
